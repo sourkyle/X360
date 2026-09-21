@@ -19,7 +19,6 @@ using DevComponents.DotNetBar;
 using X360;
 using X360.IO;
 using X360.STFS;
-using X360.FATX;
 using X360.Other;
 using X360.Media;
 using X360.Profile;
@@ -32,7 +31,6 @@ namespace Le_Fluffie
     {
         public List<string> Files = new List<string>();
         public RSAParams PublicKV;
-        Updater updr = null;
         bool adjusturl = true;
 
         void startss(object devmode)
@@ -83,46 +81,6 @@ namespace Le_Fluffie
             pid.ShowDialog();
         }
 
-        void readrss()
-        {
-            listView1.Enabled = false;
-            listView1.Items.Clear();
-            try
-            {
-                System.Xml.XmlDocument x = new System.Xml.XmlDocument();
-                x.Load("http://skunkiebutt.com/?feed=rss");
-                System.Xml.XmlNodeList y = x.GetElementsByTagName("title");
-                System.Xml.XmlNodeList z = x.GetElementsByTagName("link");
-                for (int i = 1; i <= 20; i++)
-                {
-                    ListViewItem it = new ListViewItem(y[i].InnerText);
-                    it.Tag = z[i].InnerText;
-                    listView1.Items.Add(it);
-                }
-                listView1.Enabled = true;
-            }
-            catch { listView1.Items.Add(new ListViewItem("Connection Error")); }
-            try
-            {
-                StreamReader x = new StreamReader(WebRequest.Create("http://skunkiebutt.com/News.txt").GetResponse().GetResponseStream());
-                richTextBox1.Text += "\r\n" + x.ReadLine();
-                x.Close();
-            }
-            catch { }
-            Thread.CurrentThread.Abort();
-        }
-
-        void upd(object devmode)
-        {
-            if (!((bool)devmode))
-            {
-                updr = new Updater();
-                if (updr.UpdateNeeded)
-                    updr.ShowDialog();
-            }
-            Thread.CurrentThread.Abort();
-        }
-
         public MainForm()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -139,35 +97,36 @@ namespace Le_Fluffie
             }
             InitializeComponent();
             VariousFunctions.DeleteFile(Application.StartupPath + "/LFLiveUpdater.exe");
+            webBrowser1.Url = new Uri("about:blank");
+            richTextBox1.Text =
+                "This build packages Xbox 360 DLC.\r\n\r\n" +
+                "File, then Package Creation. Leave the type on STFS.\r\n" +
+                "Package type defaults to MarketPlace. Signing defaults to Dev LIVE.\r\n" +
+                "The Title ID box is hexadecimal. Fallout: New Vegas is 425307E0.\r\n\r\n" +
+                "The FATX drive browser was removed. Copy the finished package with FATXplorer.\r\n" +
+                "Opening a profile package still allows the old profile editor.";
             bool devmode = AssemblyFunctions.GrabParentProcessName() == "devenv";
-            Thread y = new Thread(new ParameterizedThreadStart(upd));
-            y.Start(devmode);
             Thread x = new Thread(new ParameterizedThreadStart(startss));
             x.Start(devmode);
             VariousFunctions.DeleteTempFiles();
-            Thread z = new Thread(new ThreadStart(readrss));
-            z.Start();
-            PublicKV = new RSAParams(Application.StartupPath + "/KV.bin");
-            if (!PublicKV.Valid)
+            PublicKV = null;
+            try
             {
-                MessageBox.Show("Cannot load KV");
-                Process.GetCurrentProcess().Kill();
-                return;
+                string kvPath = Application.StartupPath + "/KV.bin";
+                if (File.Exists(kvPath))
+                    PublicKV = new RSAParams(kvPath);
             }
+            catch { PublicKV = null; }
+            if (PublicKV != null && !PublicKV.Valid)
+                PublicKV = null;
             XAbout.WriteLegalLocally();
             while (x.IsAlive)
                 Application.DoEvents();
             Show();
-            while (y.IsAlive)
-                Application.DoEvents();
             Enabled = true;
             Select();
             Focus();
-            if (!devmode)
-            {
-                updr.Dispose();
-                updr = null;
-            }
+            this.Text = "Le Fluffie - DLC packager";
             checkForUpdatesToolStripMenuItem.Enabled = true;
         }
 
@@ -226,14 +185,10 @@ namespace Le_Fluffie
                         break;
 
                     case XboxFileType.FATX:
-                        {
-                            FATXDrive xdrive = new FATXDrive(file);
-                            Files.Add(file);
-                            FATXBrowser y = new FATXBrowser(xdrive, file, this);
-                            y.MdiParent = this;
-                            y.Show();
-                        }
-                        break;
+                        MessageBox.Show(
+                            "This build does not browse FATX drives or images.\r\n" +
+                            "Use FATXplorer to copy files, then package DLC from File → Package Creation.");
+                        return;
 
                     case XboxFileType.GDF:
                         {
@@ -288,39 +243,12 @@ namespace Le_Fluffie
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            updr = new Updater();
-            updr.ShowDialog();
-            updr.Dispose();
+            MessageBox.Show("The original update server (skunkiebutt.com) is offline. This branch does not check for updates.");
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
             BringToFront();
-        }
-
-        private void fATXExplorerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Drive_Selector x = new Drive_Selector(this);
-            if (x.ShowDialog() != DialogResult.OK)
-                return;
-            Form y = null;
-            if (x.ChosenDrive.IsDriveIO)
-            {
-                if (x.radioButton1.Checked)
-                    y = (Form)new FATXViewer(x.ChosenDrive, x.ChosenDrive.DriveName, this);
-                else y = (Form)new FATXBrowser(x.ChosenDrive, x.ChosenDrive.DriveName, this);
-                Files.Add(x.ChosenDrive.DriveName);
-            }
-            else
-            {
-                if (Files.Contains(x.xfile))
-                    return;
-                if (x.radioButton1.Checked)
-                    y = (Form)new FATXViewer(x.ChosenDrive, x.xfile, this);
-                else y = (Form)new FATXBrowser(x.ChosenDrive, x.xfile, this);
-            }
-            y.MdiParent = this;
-            y.Show();
         }
 
         private void donateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -354,11 +282,14 @@ namespace Le_Fluffie
 
         private void packageCreationToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string xtext = "Package Creation\r\n\r\nEverything is pretty much self " +
-                "explanitory, the one thing I do need to explain is the Deviation for SVOD " +
-                "(Game) packages.  If you create a clean ISO from scratch, the Deviation will be 0, " +
-                "but if it was extracted from a previous SVOD package, you need to know the Deviation from " +
-                "that package.";
+            string xtext = "Package Creation\r\n\r\n" +
+                "For Fallout: New Vegas mods, choose STFS. Package type MarketPlace " +
+                "is content type 00000002. Set Title ID to 425307E0 (the box is hex). " +
+                "Sign with Dev LIVE. Save the file and copy it with FATXplorer to " +
+                "Content\\0000000000000000\\425307E0\\00000002\\.\r\n\r\n" +
+                "Do not rebuild the package after it is signed.\r\n\r\n" +
+                "SVOD packages are disc images, not DLC. Deviation 0 is a clean image. " +
+                "An image extracted from an older SVOD package keeps that package's deviation.";
             Helper xhlp = new Helper(xtext, (ToolStripMenuItem)sender);
             xhlp.MdiParent = this;
             xhlp.Show();
@@ -415,9 +346,7 @@ namespace Le_Fluffie
 
         private void refreshChatPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            adjusturl = true;
-            webBrowser1.Url = new Uri("http://skunkiebutt.com/chat");
-            webBrowser1.Update();
+            MessageBox.Show("The original chat page is offline.");
         }
 
         private void webBrowser1_NewWindow(object sender, CancelEventArgs e)

@@ -179,6 +179,11 @@ namespace Le_Fluffie
                 checkBoxX3.Checked = (((byte)xPackage.Header.IDTransfer >> 1) & 1) == 1;
             }
             labelX8.Text = "Title ID: " + xpack.Header.TitleID.ToString("X");
+            if (KV == null || !KV.Valid)
+            {
+                radioButton1.Enabled = false;
+                radioButton2.Checked = true;
+            }
             if (xPackage.Header.ThisType != PackageType.Profile)
             {
                 tabItem4.Visible = false;
@@ -370,7 +375,14 @@ namespace Le_Fluffie
             Log("Writing to package");
             RSAParams x = null;
             if (radioButton1.Checked)
+            {
+                if (KV == null || !KV.Valid)
+                {
+                    Log("No KV.bin. Choose Dev LIVE.");
+                    return;
+                }
                 x = KV;
+            }
             else if (radioButton2.Checked)
                 x = new RSAParams(StrongSigned.LIVE);
             else if (radioButton3.Checked)
@@ -532,7 +544,15 @@ namespace Le_Fluffie
             tabControl1.Enabled = false;
             bool success = false;
             if (radioButton1.Checked)
-                success = xPackage.RebuildPackage(new RSAParams(Application.StartupPath + "/KV.bin"));
+            {
+                if (KV == null || !KV.Valid)
+                {
+                    Log("No KV.bin. Choose Dev LIVE.");
+                    tabControl1.Enabled = true;
+                    return;
+                }
+                success = xPackage.RebuildPackage(KV);
+            }
             else if (radioButton2.Checked)
                 success = xPackage.RebuildPackage(new RSAParams(StrongSigned.LIVE));
             else if (radioButton3.Checked)

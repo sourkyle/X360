@@ -67,24 +67,6 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="FATXBrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FATXBrowser.Designer.cs">
-      <DependentUpon>FATXBrowser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FATXViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FATXViewer.Designer.cs">
-      <DependentUpon>FATXViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileProp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FileProp.Designer.cs">
-      <DependentUpon>FileProp.cs</DependentUpon>
-    </Compile>
     <Compile Include="Game Orderer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,12 +78,6 @@
     </Compile>
     <Compile Include="GDFViewer.Designer.cs">
       <DependentUpon>GDFViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GoToDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GoToDialog.Designer.cs">
-      <DependentUpon>GoToDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs">
       <SubType>Form</SubType>
@@ -140,12 +116,6 @@
     <Compile Include="MusicView.Designer.cs">
       <DependentUpon>MusicView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Drive Selector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Drive Selector.Designer.cs">
-      <DependentUpon>Drive Selector.cs</DependentUpon>
-    </Compile>
     <Compile Include="GPDViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,28 +152,12 @@
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FATXBrowser.resx">
-      <DependentUpon>FATXBrowser.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FATXViewer.resx">
-      <DependentUpon>FATXViewer.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FileProp.resx">
-      <DependentUpon>FileProp.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Game Orderer.resx">
       <DependentUpon>Game Orderer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GDFViewer.resx">
       <DependentUpon>GDFViewer.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GoToDialog.resx">
-      <DependentUpon>GoToDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Helper.resx">
@@ -232,10 +186,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MusicView.resx">
       <DependentUpon>MusicView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Drive Selector.resx">
-      <DependentUpon>Drive Selector.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">

@@ -104,6 +104,8 @@ namespace Le_Fluffie
             {
                 if (x.ParseSuccess)
                 {
+                    if (par.PublicKV == null || !par.PublicKV.Valid)
+                        return;
                     if (checkBoxX1.Checked)
                         x.Header.MakeAnonymous();
                     if (checkBoxX2.Checked)

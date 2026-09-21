@@ -74,7 +74,26 @@ namespace Le_Fluffie
             }
             xtype = xThisType;
             comboBoxEx2.DataSource = y.ToArray();
-            comboBoxEx2.SelectedIndex = 0;
+            if (xtype == PackType.STFS)
+            {
+                for (int i = 0; i < comboBoxEx2.Items.Count; i++)
+                {
+                    if ((PackageType)comboBoxEx2.Items[i] == PackageType.MarketPlace)
+                    {
+                        comboBoxEx2.SelectedIndex = i;
+                        break;
+                    }
+                }
+                numericUpDown1.Value = 0x425307E0;
+                textBoxX6.Text = "New Vegas mod";
+                textBoxX5.Text = "Local";
+                HeaderInfo.Title_Display = "New Vegas mod";
+                HeaderInfo.Description = "Marketplace content";
+                radioButton2.Checked = true;
+                if (xparent.PublicKV == null || !xparent.PublicKV.Valid)
+                    radioButton1.Enabled = false;
+            }
+            else comboBoxEx2.SelectedIndex = 0;
             comboBoxEx3.DataSource = Enum.GetValues(typeof(Languages));
             comboBoxEx3.SelectedIndex = 0;
             SetText();
@@ -118,8 +137,18 @@ namespace Le_Fluffie
                     return;
                 xOut = y;
             }
+            if (radioButton4.Checked)
+                HeaderInfo.Title_Display = textBoxX4.Text;
+            else HeaderInfo.Description = textBoxX4.Text;
             if (radioButton1.Checked)
+            {
+                if (xparent.PublicKV == null || !xparent.PublicKV.Valid)
+                {
+                    MessageBox.Show("KV.bin was not found next to the program. Choose Dev LIVE.");
+                    return;
+                }
                 xParams = xparent.PublicKV;
+            }
             else if (radioButton2.Checked)
                 xParams = new RSAParams(StrongSigned.LIVE);
             else xParams = new RSAParams(StrongSigned.PIRS);
@@ -167,8 +196,8 @@ namespace Le_Fluffie
         private void buttonX1_Click(object sender, EventArgs e)
         {
             if (radioButton4.Checked)
-                HeaderInfo.Description = textBoxX4.Text;
-            else HeaderInfo.Title_Display = textBoxX4.Text;
+                HeaderInfo.Title_Display = textBoxX4.Text;
+            else HeaderInfo.Description = textBoxX4.Text;
         }
 
         private void textBoxX5_TextChanged(object sender, EventArgs e) { HeaderInfo.Publisher = textBoxX5.Text; }

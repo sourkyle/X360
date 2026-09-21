@@ -35,8 +35,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.packageCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.fATXExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.multiSTFSFixerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,8 +68,6 @@
             this.toolStripSeparator1,
             this.packageCreationToolStripMenuItem,
             this.toolStripSeparator2,
-            this.fATXExplorerToolStripMenuItem,
-            this.toolStripSeparator3,
             this.multiSTFSFixerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -100,18 +96,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(163, 6);
-            // 
-            // fATXExplorerToolStripMenuItem
-            // 
-            this.fATXExplorerToolStripMenuItem.Name = "fATXExplorerToolStripMenuItem";
-            this.fATXExplorerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.fATXExplorerToolStripMenuItem.Text = "FATX Explorer";
-            this.fATXExplorerToolStripMenuItem.Click += new System.EventHandler(this.fATXExplorerToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(163, 6);
             // 
             // multiSTFSFixerToolStripMenuItem
             // 
@@ -373,14 +357,12 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openAFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem packageCreationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fATXExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem donateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         public System.Windows.Forms.ToolStripMenuItem multiSTFSFixerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem achievementsToolStripMenuItem;
