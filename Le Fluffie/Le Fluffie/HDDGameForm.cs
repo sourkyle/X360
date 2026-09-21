@@ -93,6 +93,11 @@ namespace Le_Fluffie
 
         private void buttonX2_Click(object sender, EventArgs e)
         {
+            if (radioButton1.Checked && (xparent.PublicKV == null || !xparent.PublicKV.Valid))
+            {
+                MessageBox.Show("KV.bin was not found next to the program. Choose Dev LIVE or Dev PIRS.");
+                return;
+            }
             if (radioButton1.Checked && MessageBox.Show("Are you sure you want to do this? Signing it wif\na different KV other than your own will cause the game not\nto work on a stock unJTAG'ed system",
                 "WARNING", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 return;
